@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "start": "webpack --watch",
     "test": "mochista --compilers js:babel-register",
+    "test:ci": "mocha --compilers js:babel-register",
     "tdd": "npm test -- --watch"
   },
   "devDependencies": {

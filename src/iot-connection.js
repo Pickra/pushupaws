@@ -29,7 +29,7 @@ export default class IoTConnection extends EventEmitter {
         super();
         this.status = 'NOT CONNECTED';
         this.region = region;
-        this.endpoint = endpoint
+        this.endpoint = endpoint;
         this.clientId = clientId;
 
         this.on('connect', this.onConnect);
