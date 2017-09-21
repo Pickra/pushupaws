@@ -22,14 +22,14 @@ export default class IoTConnection extends EventEmitter {
     static connectionStates = [
         'NOT CONNECTED',
         'CONNECTED',
-        'CONNECTION ERROR',
+        'CONNECTION ERROR'
     ];
 
     constructor(region: string, endpoint: string, clientId: string) {
         super();
         this.status = 'NOT CONNECTED';
         this.region = region;
-        this.endpoint = endpoint;
+        this.endpoint = endpoint
         this.clientId = clientId;
 
         this.on('connect', this.onConnect);

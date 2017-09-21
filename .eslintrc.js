@@ -9,6 +9,9 @@ module.exports = {
     'parserOptions': {
         'sourceType': 'module'
     },
+    "plugins": [
+        "flowtype"
+    ],
     'rules': {
         'indent': [
             'error',
@@ -25,6 +28,15 @@ module.exports = {
         'semi': [
             'error',
             'always'
+        ],
+        "flowtype/delimiter-dangle": [
+            2,
+            "always-multiline"
         ]
+    },
+    "settings": {
+        "flowtype": {
+            "onlyFilesWithFlowAnnotation": true
+        }
     }
 };
