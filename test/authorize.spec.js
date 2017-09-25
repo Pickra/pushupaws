@@ -32,7 +32,7 @@ describe('authorize', () => {
 
     it('should return a rejected promise if credentials cannot be obtained', () => {
         AWS.CognitoIdentityCredentials.callsFake(function () {
-            this.expired = false;
+            this.expired = true;
             this.get = getStub;
         });
         const credentialsPromise = authorize('identity-pool');
