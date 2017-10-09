@@ -34,6 +34,7 @@ describe('PushupAWS', () => {
         mockClientId = 'client-id';
         mockClient = new EventEmitter();
         mockClient.subscribe = sinon.spy();
+        mockClient.publish = sinon.spy();
     });
 
     afterEach(() => {
@@ -126,6 +127,23 @@ describe('PushupAWS', () => {
             mockClient.emit('error', 'error');
             pushupaws.onError(listener);
             listener.calledWith('error').should.equal(true);
+        });
+    });
+
+    describe('publish', () => {
+        beforeEach(() => {
+            return initialize().then(() => { awsIoTMock.verify(); });
+        });
+
+        it('should publish a message using the AWS IoT device client after client is connected', () => {
+            mockClient.emit('connect');
+            pushupaws.publish('topic', 'message');
+            mockClient.publish.calledWith('topic', 'message').should.equal(true);
+        });
+
+        it('should throw an error if the client is not yet connected', () => {
+            (() => pushupaws.publish('topic', 'message'))
+                .should.throw('Messages cannot be published if client is not connected');
         });
     });
 

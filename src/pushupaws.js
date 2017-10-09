@@ -34,6 +34,11 @@ export default class AwsServerlessPush {
         if (this.ioTConnection.status === 'CONNECTION ERROR') { listener(this.ioTConnection.error); }
     }
 
+    publish(topic: string, message: any) {
+        if (!this.isConnected()) { throw new Error('Messages cannot be published if client is not connected'); }
+        this.ioTConnection.client.publish(topic, message);
+    }
+
     subscribe(topic: string, listener: SubscriberListener) {
         if (!this.isConnected()) {
             this.subscriptions.push({ topic, listener });
