@@ -1,6 +1,6 @@
 {
   "name": "pushupaws",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Leverage AWS IoT to easily publish and receive serverless notifications in the browser.",
   "main": "index.js",
   "author": "Adam Fitzpatrick",
