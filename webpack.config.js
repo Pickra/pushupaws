@@ -5,7 +5,7 @@ module.exports = {
     output: {
         path: __dirname,
         filename: 'index.js',
-        library: 'pushupaws',
+        library: 'Pushupaws',
         libraryTarget: 'umd'
     },
     module: {

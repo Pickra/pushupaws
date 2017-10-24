@@ -5,7 +5,7 @@ import IoTConnection from './iot-connection';
 
 import type { SubscriberListener } from './iot-connection';
 
-export default class AwsServerlessPush {
+class AwsServerlessPush {
     ioTConnection: IoTConnection;
 
     subscriptions = [];
@@ -79,3 +79,5 @@ export default class AwsServerlessPush {
         this.subscriptions = [];
     }
 }
+
+module.exports = AwsServerlessPush;

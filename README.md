@@ -52,5 +52,12 @@ pushupaws.onError(() => { /* error listener */ });
 pushupaws.subscribe('topic-name', () => { /* message listener for topic */ });
 ```
 
+Publish a message topic for which the client has permissions, and the message listener for that topic will be called
+on any client that is connected and listening.
+
+```javascript
+pushupaws.publish('topic-name', 'super-important notification');
+```
+
 And that's it!  Note that although a single instance of pushupaws can handle multiple topics, a separate
 instance is required for distinct IoT endpoints.
