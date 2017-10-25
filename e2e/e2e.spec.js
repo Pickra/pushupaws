@@ -8,13 +8,13 @@ describe('pushupaws', function () {
 
     before(function () {
         region = 'us-west-2';
-        endpoint = 'a2gw5j32h94okz.iot.us-west-2.amazonaws.com';
-        identityPoolId = 'us-west-2:9f1c7ee2-aca2-48d0-a904-6f29cebe560c';
+        endpoint = ENDPOINT; //eslint-disable-line no-undef
+        identityPoolId = IDENTITY_POOL_ID; //eslint-disable-line no-undef
         sender = new Pushupaws(region, endpoint, identityPoolId, Math.random().toString()); // eslint-disable-line no-undef
-        receiver = new Pushupaws(region, endpoint, identityPoolId, Math.random().toString()); // eslint-disable-line no-undef
 
         return new Promise(function (resolve, reject) {
             sender.onConnect(function () {
+                receiver = new Pushupaws(region, endpoint, identityPoolId, Math.random().toString()); // eslint-disable-line no-undef
                 receiver.onConnect(function () {
                     resolve();
                 });
@@ -34,14 +34,18 @@ describe('pushupaws', function () {
     });
 
     it('should be notified of a message when the message is published', function () {
+        console.log('it should be notified...');
         var promise = new Promise(function (resolve) {
-            sender.subscribe('test-topic', function (topic, message) {
+            console.log('adding subscription...');
+            receiver.subscribe('test-topic', function (topic, message) {
+                console.log('message received:', message);
                 message.toString('utf-8').should.equal('test message');
                 resolve();
-
             });
         });
+        console.log('publishing...');
         sender.publish('test-topic', 'test message');
+        console.log('published.');
         return promise;
     });
 });

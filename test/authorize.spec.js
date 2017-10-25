@@ -25,7 +25,7 @@ describe('authorize', () => {
         const credentialsPromise = authorize('identity-pool');
         getStub.args[0][0]();
         return credentialsPromise.should.eventually.be.fulfilled.then(value => {
-            value.accessKeyId = 'access-key-id';
+            value.accessKeyId.should.equal('access-key-id');
             AWS.CognitoIdentityCredentials.calledWith({ IdentityPoolId: 'identity-pool' }).should.equal(true);
         });
     });
@@ -38,5 +38,17 @@ describe('authorize', () => {
         const credentialsPromise = authorize('identity-pool');
         getStub.args[0][0]();
         return credentialsPromise.should.be.rejectedWith('Unable to obtain valid Cognito credentials.');
+    });
+
+    it('should not attempt to obtain new credentials if valid cognito credentials exist', () => {
+        AWS.config.credentials = {
+            expired: false,
+            cognito: true,
+            accessKeyId: 'access-key-id'
+        };
+        return authorize('identity-pool').should.eventually.be.fulfilled.then(value => {
+            value.accessKeyId.should.equal('access-key-id');
+            AWS.CognitoIdentityCredentials.called.should.equal(false);
+        });
     });
 });

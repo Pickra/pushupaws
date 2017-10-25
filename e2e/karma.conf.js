@@ -1,6 +1,8 @@
 // Karma configuration
 // Generated on Thu Oct 19 2017 15:18:55 GMT-0700 (PDT)
 
+const DefinePlugin = require('webpack').DefinePlugin;
+
 module.exports = function (config) {
     config.set({
 
@@ -22,7 +24,9 @@ module.exports = function (config) {
 
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-        preprocessors: {},
+        preprocessors: {
+            './e2e.spec.js': 'webpack'
+        },
 
         // test results reporter to use
         // possible values: 'dots', 'progress'
@@ -45,7 +49,7 @@ module.exports = function (config) {
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
         browsers: [ 'PhantomJS' ],
-
+        browserNoActivityTimeout: 30000,
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
         singleRun: true,
@@ -54,17 +58,32 @@ module.exports = function (config) {
         // how many browser should be started simultaneous
         concurrency: Infinity,
 
+        globals: {
+            IDENTITY_POOL_ID: process.env.IDENTITY_POOL_ID
+        },
+
         plugins: [
             'karma-phantomjs-launcher',
             'karma-mocha',
             'karma-chai',
-            'karma-es6-shim'
+            'karma-es6-shim',
+            'karma-webpack'
         ],
+
+        webpack: {
+            plugins: [
+                new DefinePlugin({
+                    IDENTITY_POOL_ID: JSON.stringify(process.env.IDENTITY_POOL_ID),
+                    ENDPOINT: JSON.stringify(process.env.ENDPOINT)
+                })
+            ]
+        },
 
         client: {
             mocha: {
-                timeout: 10000
-            }
+                timeout: 30000
+            },
+            args: ['foo']
         }
     });
 };
